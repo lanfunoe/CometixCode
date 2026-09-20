@@ -4137,7 +4137,10 @@ mod tests {
 
     #[test]
     fn resource_helper_callback_scope_and_reconnect_match_actual_bun_oracle() {
-        let oracle: serde_json::Value = serde_json::from_str(include_str!("../../../tests/fixtures/oracles/mcp-contract-review-0915/oracle.json")).unwrap();
+        let oracle: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/mcp-contract-review-0915/oracle.json"
+        ))
+        .unwrap();
         let mut calls = Vec::new();
         for names in [vec!["a", "b"], vec!["c"]] {
             let added = std::sync::atomic::AtomicBool::new(false);

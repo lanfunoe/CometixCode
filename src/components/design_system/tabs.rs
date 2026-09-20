@@ -405,7 +405,10 @@ mod tests {
                 "Tabs did not reach source outcome; frames={history:?}"
             );
         }
-        let oracle:serde_json::Value=serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-ui-complete-0914/tabs-oracle.json")).unwrap();
+        let oracle: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-ui-complete-0914/tabs-oracle.json"
+        ))
+        .unwrap();
         for case in oracle.as_array().unwrap() {
             let name = case["name"].as_str().unwrap();
             let events = Arc::new(Mutex::new(Vec::<String>::new()));
@@ -686,7 +689,8 @@ mod tests {
         // an undrawn layout gap previously looked neutral but leaked SGR.
         let cases: serde_json::Value = serde_json::from_str(include_str!(
             "../../../tests/fixtures/oracles/tabs-style-0915/oracle.json"
-        )).unwrap();
+        ))
+        .unwrap();
         for case in cases.as_array().unwrap() {
             let width = case["width"].as_u64().unwrap() as usize;
             // At 28 columns Yoga shrinks/repositions the labels. That existing

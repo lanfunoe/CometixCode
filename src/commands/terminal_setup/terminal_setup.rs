@@ -1409,7 +1409,11 @@ mod tests {
         async fn terminal_setup_apple_installer_matches_official_bun_argv_effects_and_errors() {
             let _guard = Guard(chalk::stdout_level());
             chalk::set_stdout_level(0);
-            let rows:Vec<Value>=serde_json::from_str(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),"/tests/fixtures/oracles/terminal-setup-0913/apple/installer-oracle.json"))).unwrap();
+            let rows: Vec<Value> = serde_json::from_str(include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/tests/fixtures/oracles/terminal-setup-0913/apple/installer-oracle.json"
+            )))
+            .unwrap();
             for row in rows {
                 let input = &row["input"];
                 let integers = |key: &str| {

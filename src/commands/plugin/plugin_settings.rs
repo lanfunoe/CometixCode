@@ -1346,7 +1346,10 @@ mod tests {
     fn error_rows_and_navigation_matches_official_bun() {
         use crate::types::plugin::PluginError;
         use serde_json::{Value, json};
-        let oracle:Value=serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-ui-complete-0914/errors-oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-ui-complete-0914/errors-oracle.json"
+        ))
+        .unwrap();
         let failed = oracle["failed"]
             .as_array()
             .unwrap()

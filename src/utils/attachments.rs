@@ -1475,9 +1475,10 @@ pub(crate) fn get_mcp_instructions_delta_attachment(
         .collect::<std::collections::BTreeSet<_>>();
     let mut instructions =
         crate::services::mcp::client::connected_mcp_server_instructions(&context.mcp_state);
-    let model = context.main_loop_model.clone().unwrap_or_else(
-        crate::utils::model::model::get_main_loop_model,
-    );
+    let model = context
+        .main_loop_model
+        .clone()
+        .unwrap_or_else(crate::utils::model::model::get_main_loop_model);
     let chrome_name = crate::utils::claude_in_chrome::common::CLAUDE_IN_CHROME_MCP_SERVER_NAME;
     if connected_names.contains(chrome_name)
         && crate::tools::tool_search_tool::prompt::is_tool_search_enabled_optimistic()
@@ -1847,9 +1848,10 @@ pub async fn get_attachments(
 
     let mut attachments = Vec::new();
     attachments.extend(get_queued_command_attachments(&queued_commands));
-    let model = tool_use_context.main_loop_model.clone().unwrap_or_else(
-        crate::utils::model::model::get_main_loop_model,
-    );
+    let model = tool_use_context
+        .main_loop_model
+        .clone()
+        .unwrap_or_else(crate::utils::model::model::get_main_loop_model);
     if let Some(attachment) =
         get_deferred_tools_delta_attachment(&tool_use_context.tools, &model, messages)
     {
@@ -2430,9 +2432,10 @@ fn get_skill_listing_attachments(
     let is_initial = sent.is_empty();
     sent.extend(new_commands.iter().map(|command| command.name.to_string()));
     drop(sent_by_agent);
-    let model = tool_use_context.main_loop_model.clone().unwrap_or_else(
-        crate::utils::model::model::get_main_loop_model,
-    );
+    let model = tool_use_context
+        .main_loop_model
+        .clone()
+        .unwrap_or_else(crate::utils::model::model::get_main_loop_model);
     let context_window = crate::utils::context::get_context_window_for_model(&model, &[]);
     let content = crate::tools::skill_tool::prompt::format_commands_within_budget(
         &new_commands,

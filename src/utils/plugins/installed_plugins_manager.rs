@@ -561,7 +561,10 @@ mod tests {
     use serde_json::json;
 
     fn oracle() -> Value {
-        serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-installed-0914/bun-oracle.json")).unwrap()
+        serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-installed-0914/bun-oracle.json"
+        ))
+        .unwrap()
     }
     fn root(name: &str) -> PathBuf {
         let root =

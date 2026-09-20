@@ -2413,7 +2413,10 @@ mod tests {
 
     #[test]
     fn versioned_plugin_paths_match_official_bun_utf16_regex_and_join() {
-        let oracle:serde_json::Value=serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-installed-0914/bun-oracle.json")).unwrap();
+        let oracle: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-installed-0914/bun-oracle.json"
+        ))
+        .unwrap();
         // Verbatim source getVersionedCachePathIn :139-165, including source
         // regex's UTF-16 code-unit replacement and Node lexical dot segments.
         for row in oracle["pathCases"].as_array().unwrap() {
