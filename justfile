@@ -72,7 +72,7 @@ project := justfile_directory() / "tests/fixtures/isolated-project"
 # is visible and reviewable. COMETIX_TEST_PROJECT_DIR closes the projectSettings
 # hole described above: `${cwd}/.claude/settings.json` resolves inside the
 # tracked hook-free fixture instead of this repository.
-iso  := 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC= DISABLE_TELEMETRY= NODE_ENV= CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR= COMETIX_TEST_PROJECT_DIR=' + quote(project)
+iso  := 'TERM=xterm-256color CI= RUST_MIN_STACK=8388608 CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC= DISABLE_TELEMETRY= NODE_ENV= CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR= COMETIX_TEST_PROJECT_DIR=' + quote(project)
 # Third pinning layer: model/endpoint/auth variables the HOST Claude Code
 # session injects via its --settings env block (verified 2026-08-19: a host
 # profile sets ANTHROPIC_BASE_URL / ANTHROPIC_AUTH_TOKEN /

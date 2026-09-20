@@ -126,12 +126,12 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y libicu-dev pkg-config
+          sudo apt-get install --no-install-recommends -y libicu-dev pkg-config ripgrep
 
       - name: 安装 ICU4C（macOS）
         if: runner.os == 'macOS'
         run: |
-          brew install icu4c
+          brew install icu4c ripgrep
           echo "PKG_CONFIG_PATH=$(brew --prefix icu4c)/lib/pkgconfig" >> "$GITHUB_ENV"
 
       - name: 安装 Rust
@@ -170,7 +170,7 @@ jobs:
       - name: 安装 ICU4C
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y libicu-dev pkg-config
+          sudo apt-get install --no-install-recommends -y libicu-dev pkg-config ripgrep
 
       - name: 安装 Rust
         uses: dtolnay/rust-toolchain@master

@@ -5805,10 +5805,16 @@ mod tests {
         assert_eq!(value["system"][0]["type"], serde_json::json!("text"));
         assert_eq!(
             value["system"][0]["text"],
+            serde_json::json!(crate::constants::system::get_cli_sysprompt_prefix(
+                false, false
+            ))
+        );
+        assert_eq!(
+            value["system"][1]["text"],
             serde_json::json!("System A\n\nSystem B")
         );
         assert_eq!(
-            value["system"][0]["cache_control"]["type"],
+            value["system"][1]["cache_control"]["type"],
             serde_json::json!("ephemeral")
         );
     }
@@ -5858,13 +5864,19 @@ mod tests {
                 .expect("effective body serialize");
 
         crate::utils::process_env::remove("CLAUDE_CODE_USE_GLOBAL_CACHE_SCOPE");
-        assert_eq!(value["system"][0]["text"], serde_json::json!("static"));
         assert_eq!(
-            value["system"][0]["cache_control"]["scope"],
+            value["system"][0]["text"],
+            serde_json::json!(crate::constants::system::get_cli_sysprompt_prefix(
+                false, false
+            ))
+        );
+        assert_eq!(value["system"][1]["text"], serde_json::json!("static"));
+        assert_eq!(
+            value["system"][1]["cache_control"]["scope"],
             serde_json::json!("global")
         );
-        assert_eq!(value["system"][1]["text"], serde_json::json!("dynamic"));
-        assert!(value["system"][1].get("cache_control").is_none());
+        assert_eq!(value["system"][2]["text"], serde_json::json!("dynamic"));
+        assert!(value["system"][2].get("cache_control").is_none());
     }
 
     #[test]
@@ -5921,14 +5933,20 @@ mod tests {
         crate::utils::process_env::remove("CLAUDE_CODE_USE_GLOBAL_CACHE_SCOPE");
         assert_eq!(
             value["system"][0]["text"],
+            serde_json::json!(crate::constants::system::get_cli_sysprompt_prefix(
+                false, false
+            ))
+        );
+        assert_eq!(
+            value["system"][1]["text"],
             serde_json::json!("static\n\ndynamic")
         );
         assert_eq!(
-            value["system"][0]["cache_control"]["type"],
+            value["system"][1]["cache_control"]["type"],
             serde_json::json!("ephemeral")
         );
-        assert!(value["system"][0]["cache_control"].get("scope").is_none());
-        assert!(value["system"].as_array().unwrap().len() == 1);
+        assert!(value["system"][1]["cache_control"].get("scope").is_none());
+        assert_eq!(value["system"].as_array().unwrap().len(), 2);
     }
 
     #[test]

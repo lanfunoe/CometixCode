@@ -179,7 +179,19 @@ fn is_managed_oauth_context() -> bool {
 
 /// Maps to: CC `utils/auth.ts:355-363` `getConfiguredApiKeyHelper`.
 pub fn get_configured_api_key_helper() -> Option<String> {
-    record_auth_io(AuthIoOperation::SettingsFileRead);
+    #[cfg(test)]
+    {
+        use crate::utils::settings::settings_cache;
+
+        let cached = if crate::utils::env_utils::is_bare_mode() {
+            settings_cache::get_cached_settings_for_source(SettingSource::Flag).is_some()
+        } else {
+            settings_cache::get_session_settings_cache().is_some()
+        };
+        if !cached {
+            record_auth_io(AuthIoOperation::SettingsFileRead);
+        }
+    }
     let helper = if crate::utils::env_utils::is_bare_mode() {
         crate::utils::settings::get_settings_for_source(SettingSource::Flag)
             .and_then(|settings| settings.api_key_helper)
