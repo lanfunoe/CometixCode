@@ -27,6 +27,7 @@ use crate::utils::plugins::{
     schemas::PluginScope,
 };
 use iocraft::prelude::*;
+#[cfg(test)]
 use serde_json::Value;
 use std::collections::HashSet;
 

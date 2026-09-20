@@ -824,7 +824,7 @@ fn remove_extra_marketplace(
     sources: &[(crate::utils::settings::SettingSource, String)],
 ) {
     use crate::utils::settings::{get_settings_for_source, update_settings_for_source};
-    use serde_json::{Value, json};
+    use serde_json::Value;
     for (source, _) in sources {
         let Some(settings) = get_settings_for_source(*source) else {
             continue;
@@ -1396,8 +1396,14 @@ mod tests {
                 ErrorRowAction::RemoveInstalledMarketplace{name}=>json!({"kind":"remove-installed-marketplace","name":name}),
                 ErrorRowAction::None=>json!({"kind":"none"}),other=>panic!("unexpected settings source {other:?}")
             };
-            let mut value=json!({"label":row.label,"message":row.message,"action":action});
-            if let Some(guidance)=row.guidance{value["guidance"]=json!(guidance);}if let Some(scope)=row.scope{value["scope"]=json!(scope);}value
+            let mut value = json!({"label":row.label,"message":row.message,"action":action});
+            if let Some(guidance) = row.guidance {
+                value["guidance"] = json!(guidance);
+            }
+            if let Some(scope) = row.scope {
+                value["scope"] = json!(scope);
+            }
+            value
         }).collect::<Vec<_>>();
         assert_eq!(json!(actual), oracle["rows"]);
         let errors = plugins

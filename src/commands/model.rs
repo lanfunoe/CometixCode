@@ -10,9 +10,10 @@ use crate::components::custom_select::SelectOptionData;
 #[cfg(test)]
 use crate::components::model_picker::displayed_effort;
 use crate::components::model_picker::{
-    MODEL_NO_PREFERENCE, ModelEffortLevel, ModelPicker, ModelPickerSelection, cycle_effort,
-    model_picker_options,
+    MODEL_NO_PREFERENCE, ModelEffortLevel, ModelPicker, ModelPickerSelection,
 };
+#[cfg(test)]
+use crate::components::model_picker::{cycle_effort, model_picker_options};
 use crate::state::app_state::use_app_state_maybe_outside_of_provider;
 use crate::state::store::AppStore;
 use crate::utils::extra_usage::is_billed_as_extra_usage;
