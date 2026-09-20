@@ -1917,7 +1917,10 @@ mod tests {
         assert_eq!(result.content, "Your questions have been answered");
         assert_eq!(
             rendered_tool_result_text(&all_rows, result),
-            "⏺ User answered Claude's questions:\n· Proceed? → Yes"
+            format!(
+                "{} User answered Claude's questions:\n· Proceed? → Yes",
+                crate::constants::figures::BLACK_CIRCLE
+            )
         );
     }
 
@@ -1991,14 +1994,19 @@ mod tests {
         assert_eq!(results[0].content, "Entered plan mode");
         assert_eq!(
             rendered_tool_result_text(&all_rows, results[0]),
-            "⏺ Entered plan mode\nClaude is now exploring and designing an implementation approach."
+            format!(
+                "{} Entered plan mode\nClaude is now exploring and designing an implementation approach.",
+                crate::constants::figures::BLACK_CIRCLE
+            )
         );
         assert_eq!(results[1].content, "User has approved your plan");
         // CC ExitPlanModeTool/UI.tsx:58-64 leads with the mode-colored
         // BLACK_CIRCLE, exactly like the EnterPlanMode line above.
         assert!(
-            rendered_tool_result_text(&all_rows, results[1])
-                .starts_with("⏺ User approved Claude's plan")
+            rendered_tool_result_text(&all_rows, results[1]).starts_with(&format!(
+                "{} User approved Claude's plan",
+                crate::constants::figures::BLACK_CIRCLE
+            ))
         );
         assert!(rendered_tool_result_text(&all_rows, results[1]).contains("Plan saved to:"));
     }

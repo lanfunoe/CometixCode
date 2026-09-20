@@ -553,8 +553,23 @@ pub fn ManageMarketplaces(
         View(margin_bottom:1u32){Text(content:"Manage marketplaces",weight:Weight::Bold)}
         View(gap:1u32,margin_bottom:1u32){Text(content:format!("{} +",if selected_index.get()==0{figures.pointer}else{" "}),color:if selected_index.get()==0{theme.suggestion}else{theme.text}) Text(content:"Add Marketplace",weight:Weight::Bold,color:if selected_index.get()==0{theme.suggestion}else{theme.text})}
         View(flex_direction:FlexDirection::Column){#(states.iter().enumerate().map(|(index,state)|{
-            let mut indicators=Vec::new();if state.pending_update{indicators.push("UPDATE");}if state.pending_remove{indicators.push("REMOVE");}
-            let mut details=state.plugin_count.map(|count|format!("{count} available")).unwrap_or_default();if !state.installed_plugins.is_empty(){details.push_str(&format!(" • {} installed",state.installed_plugins.len()));}if let Some(date)=state.last_updated.as_deref().filter(|s|!s.is_empty()){details.push_str(&format!(" • Updated {}",date_string(date)));}
+            let mut indicators = Vec::new();
+            if state.pending_update {
+                indicators.push("UPDATE");
+            }
+            if state.pending_remove {
+                indicators.push("REMOVE");
+            }
+            let mut details = state
+                .plugin_count
+                .map(|count| format!("{count} available"))
+                .unwrap_or_default();
+            if !state.installed_plugins.is_empty() {
+                details.push_str(&format!(" • {} installed", state.installed_plugins.len()));
+            }
+            if let Some(date) = state.last_updated.as_deref().filter(|s| !s.is_empty()) {
+                details.push_str(&format!(" • Updated {}", date_string(date)));
+            }
             element!{View(gap:1u32,margin_bottom:1u32){Text(content:format!("{} {}",if index+1==selected_index.get(){figures.pointer}else{" "},if state.pending_remove{figures.cross}else{figures.bullet}),color:if index+1==selected_index.get(){theme.suggestion}else{theme.text})
                 View(flex_direction:FlexDirection::Column,flex_grow:1.0f32){
                     View(gap:1u32){View{

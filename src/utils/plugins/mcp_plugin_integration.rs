@@ -923,7 +923,11 @@ mod tests {
             &root.join(".claude-plugin/plugin.json"),
             r#"{"name":"toolbox","mcpServers":"./server.mcpb"}"#,
         );
-        fs::write(root.join("server.mcpb"), include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/invalid.mcpb")).unwrap();
+        fs::write(
+            root.join("server.mcpb"),
+            include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/invalid.mcpb"),
+        )
+        .unwrap();
         let (plugin, plugin_errors) =
             create_plugin_from_path(&root, "toolbox@inline", true, "toolbox");
         assert!(plugin_errors.is_empty(), "errors={plugin_errors:?}");
@@ -943,8 +947,16 @@ mod tests {
         let root = temp_dir("mcpb-pipeline");
         let config_home = temp_dir("mcpb-pipeline-settings");
         let _config_home_guard = ConfigHomeGuard::pin(&config_home);
-        fs::write(root.join("valid.mcpb"), include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/valid.mcpb")).unwrap();
-        fs::write(root.join("needs.mcpb"), include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/needs-config.mcpb")).unwrap();
+        fs::write(
+            root.join("valid.mcpb"),
+            include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/valid.mcpb"),
+        )
+        .unwrap();
+        fs::write(
+            root.join("needs.mcpb"),
+            include_bytes!("../../../tests/fixtures/oracles/mcpb-schema-0915/needs-config.mcpb"),
+        )
+        .unwrap();
         write_file(
             &root.join(".claude-plugin/plugin.json"),
             r#"{"name":"toolbox","mcpServers":"./valid.mcpb"}"#,
@@ -995,7 +1007,8 @@ mod tests {
         let cases: Value = serde_json::from_str(include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
             "/tests/fixtures/oracles/mcpb-schema-0915/file-source-oracle.json"
-        ))).unwrap();
+        )))
+        .unwrap();
         let root = temp_dir("file-object-entries");
         for case in cases.as_array().unwrap() {
             if let Some(hex) = case["input_hex"].as_str() {
@@ -1164,7 +1177,8 @@ mod tests {
     async fn plugin_activation_and_extraction_match_bun_cache_semantics() {
         let oracle: Value = serde_json::from_str(include_str!(
             "../../../tests/fixtures/oracles/mcp-lifecycle-0915/plugin-oracle.json"
-        )).unwrap();
+        ))
+        .unwrap();
         let root = temp_dir("activation-cache");
         fs::write(
             root.join(".mcp.json"),

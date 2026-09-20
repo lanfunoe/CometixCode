@@ -508,7 +508,10 @@ mod tests {
 
     #[test]
     fn path_and_local_source_predicate_match_official_bun_oracle() {
-        let oracle: Value = serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-installation-review-0914/oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-installation-review-0914/oracle.json"
+        ))
+        .unwrap();
         for case in oracle["paths"].as_array().unwrap() {
             let result = validate_path_within_base(
                 Path::new(case["base"].as_str().unwrap()),

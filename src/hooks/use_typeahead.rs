@@ -1526,19 +1526,22 @@ pub fn use_typeahead(
                 ),
                 SuggestionRequestKind::ResumeTitle => {
                     let query = request.query.clone();
-                    let rows = tokio::task::spawn_blocking(move || {
-                        crate::utils::session_storage::search_sessions_by_custom_title(
-                            &query,
-                            Some(
-                                crate::utils::session_storage::SearchSessionsByCustomTitleOptions {
-                                    limit: Some(10),
-                                    exact: false,
-                                },
-                            ),
-                        )
-                    })
-                    .await
-                    .unwrap_or_default();
+                    let runtime = crate::utils::process_runtime::process_runtime_handle()
+                        .unwrap_or_else(tokio::runtime::Handle::current);
+                    let rows = runtime
+                        .spawn_blocking(move || {
+                            crate::utils::session_storage::search_sessions_by_custom_title(
+                                &query,
+                                Some(
+                                    crate::utils::session_storage::SearchSessionsByCustomTitleOptions {
+                                        limit: Some(10),
+                                        exact: false,
+                                    },
+                                ),
+                            )
+                        })
+                        .await
+                        .unwrap_or_default();
                     (
                         rows.iter().filter_map(resume_title_item).collect(),
                         SuggestionKind::CustomTitle,

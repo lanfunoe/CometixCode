@@ -1197,8 +1197,7 @@ where
             // context still exceeds the manual-compact safety margin, return a
             // terminal API-error row instead of making a doomed model request.
             if should_preempt_context_blocking_limit(&params.query_source, autocompact_compacted) {
-                let model_for_token_warning =
-                    crate::utils::model::model::get_main_loop_model();
+                let model_for_token_warning = crate::utils::model::model::get_main_loop_model();
                 let token_usage =
                     crate::utils::tokens::token_count_with_estimation(&messages_for_query)
                         .saturating_sub(snip_tokens_freed);
@@ -4320,9 +4319,7 @@ fn query_tool_use_context(
     // Legacy/test builder. Production prefers seeded `QueryParams::tool_use_context`.
     let mut context = crate::tool::ToolUseContext::with_permission_context(permission_context)
         .with_non_interactive_session(crate::bootstrap::state::get_is_non_interactive_session())
-        .with_main_loop_model(
-            crate::utils::model::model::get_main_loop_model(),
-        )
+        .with_main_loop_model(crate::utils::model::model::get_main_loop_model())
         .with_query_tracking(query_tracking)
         .with_resume_restore_stores(resume_restore_stores.clone())
         .with_mcp_state(mcp_state.clone())

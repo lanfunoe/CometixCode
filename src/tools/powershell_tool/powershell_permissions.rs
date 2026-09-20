@@ -867,7 +867,11 @@ mod tests {
         ));
         assert!(!matches!(
             powershell_tool_has_permission("Set-Content ./src/main.rs 'x'", &context),
-            PermissionResult::Ask { .. }
+            PermissionResult::Ask {
+                decision_reason: Some(PermissionDecisionReason::SafetyCheck { ref reason, .. }),
+                ..
+            } if reason.starts_with("Command writes to .git/")
+                || reason.starts_with("Command writes to a git-internal path")
         ));
     }
 

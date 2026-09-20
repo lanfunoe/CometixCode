@@ -964,7 +964,10 @@ mod tests {
 
     #[test]
     fn plugin_names_match_actual_bun_oracle() {
-        let oracle: Value = serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-commands-0916/source-oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-commands-0916/source-oracle.json"
+        ))
+        .unwrap();
         for case in oracle["naming"].as_array().unwrap() {
             assert_eq!(
                 get_command_name_from_file(
@@ -1221,7 +1224,10 @@ mod tests {
             },
         )
         .unwrap();
-        let oracle:Value = serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-commands-0916/replacement-oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-commands-0916/replacement-oracle.json"
+        ))
+        .unwrap();
         assert_eq!(text(&command, ""), oracle[0]["text"].as_str().unwrap());
     }
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

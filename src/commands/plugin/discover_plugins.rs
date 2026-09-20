@@ -27,6 +27,7 @@ use crate::utils::plugins::{
     schemas::PluginScope,
 };
 use iocraft::prelude::*;
+#[cfg(test)]
 use serde_json::Value;
 use std::collections::HashSet;
 
@@ -913,7 +914,10 @@ pub(super) mod tests {
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn mounted_discover_paste_entry_and_width_match_official_bun() {
         crate::utils::process_runtime::initialize_test_process_runtime();
-        let oracle: Value = serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-ui-complete-0914/discover-entry-oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-ui-complete-0914/discover-entry-oracle.json"
+        ))
+        .unwrap();
         for case in oracle.as_array().unwrap() {
             for pasted in [false, true] {
                 let input_text = case["input"].as_str().unwrap();
@@ -1016,7 +1020,10 @@ pub(super) mod tests {
     #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
     async fn mounted_discover_plugins_matches_official_bun_frames_and_install_callbacks() {
         crate::utils::process_runtime::initialize_test_process_runtime();
-        let oracle:Value=serde_json::from_str(include_str!("../../../tests/fixtures/oracles/plugin-ui-complete-0914/panel-oracle.json")).unwrap();
+        let oracle: Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/oracles/plugin-ui-complete-0914/panel-oracle.json"
+        ))
+        .unwrap();
         for name in [
             "discover-list",
             "discover-target",

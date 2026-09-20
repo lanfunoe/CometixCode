@@ -3098,10 +3098,13 @@ trailer<< /Size 4 /Root 1 0 R >>\nstartxref\n190\n%%EOF\n";
             .expect("reader started");
 
         let (late_done_tx, late_done_rx) = std::sync::mpsc::channel();
+        let (late_start_tx, late_start_rx) = std::sync::mpsc::channel();
         let late_worker = std::thread::spawn({
             let late_writer_fifo = late_writer_fifo.clone();
             move || {
-                std::thread::sleep(std::time::Duration::from_millis(750));
+                if late_start_rx.recv().is_err() {
+                    return;
+                }
                 let result = std::fs::OpenOptions::new()
                     .write(true)
                     .open(late_writer_fifo);
@@ -3125,6 +3128,9 @@ trailer<< /Size 4 /Root 1 0 R >>\nstartxref\n190\n%%EOF\n";
         }));
         assert!(unwind.is_err());
         assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        late_start_tx
+            .send(())
+            .expect("late writer should start after cleanup");
         assert_eq!(
             reader_done_rx
                 .recv_timeout(std::time::Duration::from_secs(1))
